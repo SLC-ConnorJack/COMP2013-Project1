@@ -1,0 +1,19 @@
+import type { CartItem } from "./ThriftHappens";
+
+export default function CheckoutCard({
+  id,
+  name,
+  image,
+  price,
+  cartQuantity,
+}: CartItem) {
+  return (
+    <div className="CheckoutCard">
+      <img src={image} alt={name} width="80px" />
+      <p>{name}</p>
+      <p>Price: ${price.toFixed(2)}</p>
+      <p>Quantity: {cartQuantity}</p>
+      <p>Subtotal: ${(cartQuantity * price).toFixed(2)}</p>
+    </div>
+  );
+}

@@ -1,4 +1,5 @@
 import ItemsContainer from "./ItemsContainer";
+import CheckoutContainer from "./CheckoutContainer";
 import { products, type ClothingProduct } from "../data/data";
 import { useState } from "react";
 
@@ -63,7 +64,6 @@ function ThriftHappens() {
           ],
     );
 
-    // 4. Update the product's stock and reset its counter (after that)
     setProductList((prevList) =>
       prevList.map((entry) =>
         entry.id === id
@@ -81,6 +81,7 @@ function ThriftHappens() {
       <header className="header">
         <h1>Thrift Happens</h1>
       </header>
+      <CheckoutContainer cartItems={cartList} />
       <ItemsContainer
         products={productList}
         handleIncreaseQuantity={handleIncreaseQuantity}
