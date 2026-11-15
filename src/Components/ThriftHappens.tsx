@@ -2,6 +2,7 @@ import ItemsContainer from "./ItemsContainer";
 import CheckoutContainer from "./CheckoutContainer";
 import { products, type ClothingProduct } from "../data/data";
 import { useState } from "react";
+import NavBar from "./NavBar";
 
 export interface CartItem {
   id: number;
@@ -91,13 +92,26 @@ function ThriftHappens() {
       ),
     );
   };
+
+  const handleEmptyCart = () => {
+    setProductList((prevList) =>
+      prevList.map((entry) => {
+        const cartLine = cartList.find((item) => item.id === entry.id);
+        return cartLine
+          ? { ...entry, quantity: entry.quantity + cartLine.cartQuantity }
+          : entry;
+      }),
+    );
+    setCartList([]);
+  };
   return (
     <>
-      <header className="header">
-        <h1>Thrift Happens</h1>
-      </header>
-      <CheckoutContainer cartItems={cartList}
-      handleRemoveFromCart={handleRemoveFromCart} />
+      <NavBar />
+      <CheckoutContainer
+        cartItems={cartList}
+        handleRemoveFromCart={handleRemoveFromCart}
+        handleEmptyCart={handleEmptyCart}
+      />
       <ItemsContainer
         products={productList}
         handleIncreaseQuantity={handleIncreaseQuantity}
