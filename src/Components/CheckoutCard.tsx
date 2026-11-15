@@ -1,14 +1,20 @@
 import type { CartItem } from "./ThriftHappens";
 
+interface CheckoutCardProps extends CartItem {
+  handleRemoveFromCart: (id: number) => void;
+}
+
 export default function CheckoutCard({
   id,
   name,
   image,
   price,
   cartQuantity,
-}: CartItem) {
+  handleRemoveFromCart,
+}: CheckoutCardProps) {
   return (
     <div className="CheckoutCard">
+    <button onClick={() => handleRemoveFromCart(id)}>Remove</button>
       <img src={image} alt={name} width="80px" />
       <p>{name}</p>
       <p>Price: ${price.toFixed(2)}</p>

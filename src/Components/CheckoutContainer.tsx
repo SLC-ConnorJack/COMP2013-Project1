@@ -3,9 +3,10 @@ import type { CartItem } from "./ThriftHappens";
 
 interface CheckoutContainerProps {
   cartItems: CartItem[];
+    handleRemoveFromCart: (id: number) => void;
 }
 
-export default function CheckoutContainer({ cartItems }: CheckoutContainerProps) {
+export default function CheckoutContainer({ cartItems, handleRemoveFromCart }: CheckoutContainerProps) {
   
   const grandTotal = cartItems.reduce(
     (total, item) => total + item.cartQuantity * item.price,
@@ -19,7 +20,7 @@ export default function CheckoutContainer({ cartItems }: CheckoutContainerProps)
         <p>Cart Empty</p>
       ) : (
         cartItems.map((item) => (
-          <CheckoutCard key={item.id} {...item} />
+          <CheckoutCard key={item.id} {...item} handleRemoveFromCart={handleRemoveFromCart} />
         ))
       )}
       <p>Total: ${grandTotal.toFixed(2)}</p>

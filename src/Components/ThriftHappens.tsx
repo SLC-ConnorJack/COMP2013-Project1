@@ -76,12 +76,28 @@ function ThriftHappens() {
       ),
     );
   };
+
+  const handleRemoveFromCart = (id: number) => {
+    const removedItem = cartList.find((item) => item.id === id);
+    if (!removedItem) return;
+
+    setCartList((prevCart) => prevCart.filter((item) => item.id !== id));
+
+    setProductList((prevList) =>
+      prevList.map((entry) =>
+        entry.id === id
+          ? { ...entry, quantity: entry.quantity + removedItem.cartQuantity }
+          : entry,
+      ),
+    );
+  };
   return (
     <>
       <header className="header">
         <h1>Thrift Happens</h1>
       </header>
-      <CheckoutContainer cartItems={cartList} />
+      <CheckoutContainer cartItems={cartList}
+      handleRemoveFromCart={handleRemoveFromCart} />
       <ItemsContainer
         products={productList}
         handleIncreaseQuantity={handleIncreaseQuantity}
