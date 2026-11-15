@@ -7,7 +7,7 @@ interface ItemsContainerProps {
   handleDecreaseQuantity: (id: number) => void;
   handleAddToCart: (id: number) => void;
 }
-export default function ItemsContainer({
+export default function ItemsContainer({ // Displays every product as an ItemCard
   products,
   handleIncreaseQuantity,
   handleDecreaseQuantity,

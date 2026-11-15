@@ -4,7 +4,7 @@ interface CheckoutCardProps extends CartItem {
   handleRemoveFromCart: (id: number) => void;
 }
 
-export default function CheckoutCard({
+export default function CheckoutCard({ // Displays the checkout line: image, name, unit price, quantity and subtotal
   id,
   name,
   image,

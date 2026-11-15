@@ -17,7 +17,7 @@ function ThriftHappens() {
   const [productList, setProductList] = useState<ClothingProduct[]>(products);
   const [cartList, setCartList] = useState<CartItem[]>([]);
   //Handlers
-  const handleIncreaseQuantity = (id: number) => {
+  const handleIncreaseQuantity = (id: number) => { // Raises a product's selected quantity by 1, but never above its available stock
     setProductList((prevList) =>
       prevList.map((entry) =>
         entry.id === id && entry.itemQuantity < entry.quantity
@@ -26,7 +26,7 @@ function ThriftHappens() {
       ),
     );
   };
-  const handleDecreaseQuantity = (id: number) => {
+  const handleDecreaseQuantity = (id: number) => { // Lowers a product's selected quantity by 1, but never below 0
     setProductList((prevList) =>
       prevList.map((entry) =>
         entry.id === id && entry.itemQuantity > 0
@@ -35,7 +35,7 @@ function ThriftHappens() {
       ),
     );
   };
-  const handleAddToCart = (id: number) => {
+  const handleAddToCart = (id: number) => { // Adds the selected quantity of a product to the checkout
     const selectedProduct = productList.find((entry) => entry.id === id);
 
     if (!selectedProduct || selectedProduct.itemQuantity === 0) {
@@ -78,7 +78,7 @@ function ThriftHappens() {
     );
   };
 
-  const handleRemoveFromCart = (id: number) => {
+  const handleRemoveFromCart = (id: number) => { // Removes one product from the checkout and returns it to the stock
     const removedItem = cartList.find((item) => item.id === id);
     if (!removedItem) return;
 
@@ -93,7 +93,7 @@ function ThriftHappens() {
     );
   };
 
-  const handleEmptyCart = () => {
+  const handleEmptyCart = () => { // Empties the checkout and returns every item to its stock
     setProductList((prevList) =>
       prevList.map((entry) => {
         const cartLine = cartList.find((item) => item.id === entry.id);

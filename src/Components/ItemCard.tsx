@@ -4,7 +4,7 @@ export interface ItemCardProps extends ClothingProduct {
   handleDecreaseQuantity: (id: number) => void;
   handleAddToCart: (id: number) => void;
 }
-export default function ItemCard({
+export default function ItemCard({ // Displays one product with its details, quantity counter and Add to Cart button
   image,
   name,
   fit,
@@ -19,7 +19,6 @@ export default function ItemCard({
   handleIncreaseQuantity,
   handleDecreaseQuantity,
   handleAddToCart,
-  
 }: ItemCardProps) {
   return (
     <div className="ItemCard">
@@ -32,11 +31,25 @@ export default function ItemCard({
       <p className="size">size: {size}</p>
       <p className="price">${price.toFixed(2)}</p>
       <p className="quantity">stock: {quantity}</p>
-      <p className="stock-status">{ quantity > 0 ? "In Stock" : "Out of Stock"}</p>
-      <button disabled={ quantity === 0 } onClick={() => handleDecreaseQuantity(id)}>-</button>
+      <p className="stock-status">
+        {quantity > 0 ? "In Stock" : "Out of Stock"}
+      </p>
+      <button
+        disabled={quantity === 0}
+        onClick={() => handleDecreaseQuantity(id)}
+      >
+        -
+      </button>
       <span>{itemQuantity}</span>
-      <button disabled={ quantity === 0 } onClick={() => handleIncreaseQuantity(id)}>+</button>
-      <button disabled={ quantity === 0 } onClick={() => handleAddToCart(id)}>Add to Cart</button>
+      <button
+        disabled={quantity === 0}
+        onClick={() => handleIncreaseQuantity(id)}
+      >
+        +
+      </button>
+      <button disabled={quantity === 0} onClick={() => handleAddToCart(id)}>
+        Add to Cart
+      </button>
     </div>
   );
 }
