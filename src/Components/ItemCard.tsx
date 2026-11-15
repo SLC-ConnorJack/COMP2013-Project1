@@ -2,6 +2,7 @@ import type { ClothingProduct } from "../data/data";
 export interface ItemCardProps extends ClothingProduct {
   handleIncreaseQuantity: (id: number) => void;
   handleDecreaseQuantity: (id: number) => void;
+  handleAddToCart: (id: number) => void;
 }
 export default function ItemCard({
   image,
@@ -17,6 +18,8 @@ export default function ItemCard({
   itemQuantity,
   handleIncreaseQuantity,
   handleDecreaseQuantity,
+  handleAddToCart,
+  
 }: ItemCardProps) {
   return (
     <div className="ItemCard">
@@ -33,6 +36,7 @@ export default function ItemCard({
       <button disabled={ quantity === 0 } onClick={() => handleDecreaseQuantity(id)}>-</button>
       <span>{itemQuantity}</span>
       <button disabled={ quantity === 0 } onClick={() => handleIncreaseQuantity(id)}>+</button>
+      <button disabled={ quantity === 0 } onClick={() => handleAddToCart(id)}>Add to Cart</button>
     </div>
   );
 }

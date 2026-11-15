@@ -2,9 +2,18 @@ import ItemsContainer from "./ItemsContainer";
 import { products, type ClothingProduct } from "../data/data";
 import { useState } from "react";
 
+export interface CartItem {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+  cartQuantity: number;
+}
+
 function ThriftHappens() {
   //States
   const [productList, setProductList] = useState<ClothingProduct[]>(products);
+  const [cartList, setCartList] = useState<CartItem[]>([]);
   //Handlers
   const handleIncreaseQuantity = (id: number) => {
     setProductList((prevList) =>
@@ -24,6 +33,49 @@ function ThriftHappens() {
       ),
     );
   };
+  const handleAddToCart = (id: number) => {
+    const selectedProduct = productList.find((entry) => entry.id === id);
+
+    if (!selectedProduct || selectedProduct.itemQuantity === 0) {
+      alert("Please select a quantity before adding to cart.");
+      return;
+    }
+    setCartList((prevCart) =>
+      prevCart.some((item) => item.id === id)
+        ? prevCart.map((item) =>
+            item.id === id
+              ? {
+                  ...item,
+                  cartQuantity:
+                    item.cartQuantity + selectedProduct.itemQuantity,
+                }
+              : item,
+          )
+        : [
+            ...prevCart,
+            {
+              id: selectedProduct.id,
+              name: selectedProduct.name,
+              image: selectedProduct.image,
+              price: selectedProduct.price,
+              cartQuantity: selectedProduct.itemQuantity,
+            },
+          ],
+    );
+
+    // 4. Update the product's stock and reset its counter (after that)
+    setProductList((prevList) =>
+      prevList.map((entry) =>
+        entry.id === id
+          ? {
+              ...entry,
+              quantity: entry.quantity - entry.itemQuantity,
+              itemQuantity: 0,
+            }
+          : entry,
+      ),
+    );
+  };
   return (
     <>
       <header className="header">
@@ -33,6 +85,7 @@ function ThriftHappens() {
         products={productList}
         handleIncreaseQuantity={handleIncreaseQuantity}
         handleDecreaseQuantity={handleDecreaseQuantity}
+        handleAddToCart={handleAddToCart}
       />
     </>
   );
