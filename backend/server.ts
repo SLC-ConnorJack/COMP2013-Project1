@@ -1,11 +1,18 @@
 //import express and cors
 import express from "express";
 import cors from "cors";
+import "dotenv/config";
+import mongoose from "mongoose"
 
 //create the app
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT ?? 3000;
+const mongoUri = process.env.MONGO_URI;
+if (!mongoUri) {
+    console.error("MONGO_URI is missing");
+    process.exit(1);
+}
 
 //add the JSON middleware
 app.use(express.json());
@@ -14,6 +21,14 @@ app.use(express.json());
 app.use(cors());
 
 //start listening on the port and log a message
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+mongoose.connect(mongoUri)
+    .then(() => {
+        console.log("Connected to MongoDB");
+
+        app.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
+    })
+    .catch((err) => {
+        console.error(err);
+    });
