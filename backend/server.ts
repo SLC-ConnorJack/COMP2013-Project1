@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose"
+import ClothesItem from "./models/clothesItem.js";
 
 //create the app
 const app = express();
@@ -19,6 +20,16 @@ app.use(express.json());
 
 //add the CORS middleware
 app.use(cors());
+
+app.get("/data", async (req, res) => {
+    try {
+        const products = await ClothesItem.find();
+        res.status(200).json(products);
+    }
+    catch (err) {
+        res.status(500).json({ message: "Error retrieving products" });
+    }
+});
 
 //start listening on the port and log a message
 mongoose.connect(mongoUri)

@@ -1,7 +1,8 @@
 import ItemsContainer from "./ItemsContainer";
 import CheckoutContainer from "./CheckoutContainer";
-import { products, type ClothingProduct } from "../data/data";
-import { useState } from "react";
+import { type ClothingProduct } from "../data/data";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import NavBar from "./NavBar";
 
 export interface CartItem {
@@ -14,8 +15,23 @@ export interface CartItem {
 
 function ThriftHappens() {
   //States
-  const [productList, setProductList] = useState<ClothingProduct[]>(products);
-  const [cartList, setCartList] = useState<CartItem[]>([]);
+  //States
+const [productList, setProductList] = useState<ClothingProduct[]>([]);
+const [cartList, setCartList] = useState<CartItem[]>([]);
+
+useEffect(() => {
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get<ClothingProduct[]>("http://localhost:3000/data");
+            setProductList(response.data);
+        }
+        catch (err) {
+            console.error(err);
+        }
+    };
+
+    fetchProducts();
+}, []);
   //Handlers
   const handleIncreaseQuantity = (id: number) => { // Raises a product's selected quantity by 1, but never above its available stock
     setProductList((prevList) =>
