@@ -15,9 +15,9 @@ export interface CartItem {
 
 function ThriftHappens() {
   //States
-  //States
 const [productList, setProductList] = useState<ClothingProduct[]>([]);
 const [cartList, setCartList] = useState<CartItem[]>([]);
+const [error, setError] = useState<string>("");
 
 useEffect(() => {
     const fetchProducts = async () => {
@@ -27,6 +27,7 @@ useEffect(() => {
         }
         catch (err) {
             console.error(err);
+            setError("Could not load products. server might not be running");
         }
     };
 
@@ -122,20 +123,27 @@ useEffect(() => {
   };
   return (
     <>
-      <NavBar />
-      <CheckoutContainer
-        cartItems={cartList}
-        handleRemoveFromCart={handleRemoveFromCart}
-        handleEmptyCart={handleEmptyCart}
-      />
-      <ItemsContainer
-        products={productList}
-        handleIncreaseQuantity={handleIncreaseQuantity}
-        handleDecreaseQuantity={handleDecreaseQuantity}
-        handleAddToCart={handleAddToCart}
-      />
+        <NavBar />
+        <CheckoutContainer
+            cartItems={cartList}
+            handleRemoveFromCart={handleRemoveFromCart}
+            handleEmptyCart={handleEmptyCart}
+        />
+
+        {error ? (
+            <p>{error}</p>
+        ) : productList.length === 0 ? (
+            <p>No products available.</p>
+        ) : (
+            <ItemsContainer
+                products={productList}
+                handleIncreaseQuantity={handleIncreaseQuantity}
+                handleDecreaseQuantity={handleDecreaseQuantity}
+                handleAddToCart={handleAddToCart}
+            />
+        )}
     </>
-  );
+);
 }
 
 export default ThriftHappens;
